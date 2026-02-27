@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTD Interview Playbook — Rennie Filler</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --navy: #0d1b2e;
+    --blue: #1a4a8a;
+    --accent: #0ea5e9;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --surface: #111827;
+    --card: #1a2535;
+    --card2: #1f2f45;
+    --border: #2a3f5f;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .badge {
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge.gold { background: var(--gold); color: #000; }
+  .badge.green { background: var(--green); color: #000; }
+  .topbar-title { font-weight: 600; font-size: 13px; color: var(--text); }
+  .topbar-sub { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+  .topbar-nav { display: flex; gap: 4px; }
+  .nav-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--blue);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media (max-width: 700px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* SITUATION */
+  .kv-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px solid #1e3050;
+    gap: 12px;
+  }
+  .kv-row:last-child { border-bottom: none; }
+  .kv-label { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .kv-val { font-weight: 500; text-align: right; font-size: 13px; }
+  .kv-val.accent { color: var(--accent); }
+  .kv-val.gold { color: var(--gold); }
+
+  /* PITCH */
+  .pitch-box {
+    background: linear-gradient(135deg, #0f2440 0%, #1a3a6a 100%);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pitch-box::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    font-size: 80px;
+    color: var(--accent);
+    opacity: 0.15;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .pitch-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+  }
+  .pitch-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  /* Q&A */
+  .qa-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .qa-q {
+    background: var(--card2);
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 13px;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .qa-q:hover { background: #253855; }
+  .qa-q .tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 8px;
+  }
+  .tag-blue { background: #1e3a6e; color: var(--accent); }
+  .tag-gold { background: #3a2800; color: var(--gold); }
+  .tag-green { background: #0a2e1e; color: var(--green); }
+  .qa-toggle { color: var(--muted); font-size: 16px; transition: transform 0.2s; flex-shrink: 0; }
+  .qa-item.open .qa-toggle { transform: rotate(45deg); }
+  .qa-a {
+    display: none;
+    padding: 14px 16px;
+    background: var(--card);
+    font-size: 13px;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+  }
+  .qa-item.open .qa-a { display: block; }
+  .qa-a strong { color: var(--accent); }
+  .qa-a .proof {
+    background: #0a1f35;
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .qa-a .proof span { color: var(--gold); font-weight: 600; }
+
+  /* QUICK REF TABLE */
+  .ref-table { width: 100%; border-collapse: collapse; }
+  .ref-table tr { border-bottom: 1px solid #1e3050; }
+  .ref-table tr:last-child { border-bottom: none; }
+  .ref-table td { padding: 7px 8px; font-size: 13px; vertical-align: top; }
+  .ref-table td:first-child {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    white-space: nowrap;
+    width: 130px;
+    padding-top: 9px;
+  }
+  .ref-table td:last-child { font-weight: 500; }
+
+  /* STAT CHIPS */
+  .stat-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .stat-chip {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    flex: 1;
+    min-width: 130px;
+    text-align: center;
+  }
+  .stat-chip .num {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-chip .label { font-size: 11px; color: var(--muted); }
+
+  /* ALIGNMENT MATRIX */
+  .align-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .align-need {
+    background: var(--blue);
+    color: #fff;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    width: 200px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  .align-arrow {
+    background: #1a3055;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: var(--accent);
+    font-size: 16px;
+  }
+  .align-evidence {
+    background: var(--card);
+    padding: 10px 14px;
+    font-size: 12px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    color: var(--text);
+  }
+
+  /* QUESTIONS TO ASK */
+  .ask-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 11px 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .ask-item .ask-cat {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+    letter-spacing: 0.08em;
+  }
+
+  /* WATCH OUT */
+  .warn-item {
+    background: #1a1010;
+    border: 1px solid #4a1515;
+    border-left: 3px solid var(--red);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .warn-item .warn-q { color: var(--muted); font-size: 12px; margin-bottom: 3px; font-style: italic; }
+  .warn-item .warn-a { font-weight: 500; }
+
+  /* CULTURE TILES */
+  .culture-tile {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .culture-icon { font-size: 20px; margin-bottom: 6px; }
+  .culture-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .culture-proof { font-size: 12px; color: var(--muted); }
+
+  /* HIGHLIGHT */
+  .hl { color: var(--gold); font-weight: 600; }
+  .hl-blue { color: var(--accent); }
+  .hl-green { color: var(--green); }
+
+  /* CLOSING */
+  .close-q {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .close-q .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: #0a2040;
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 1px;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-header .line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div>
+      <div class="topbar-title">Rennie Filler · Interview Playbook</div>
+      <div class="topbar-sub">VP, Head of Strategic Initiatives · The Trade Desk · Round 2</div>
+    </div>
+    <span class="badge">Live Reference</span>
+    <span class="badge gold">Confidential</span>
+  </div>
+  <div class="topbar-nav">
+    <button class="nav-btn active" onclick="show('situation')">Situation</button>
+    <button class="nav-btn" onclick="show('pitch')">Pitch</button>
+    <button class="nav-btn" onclick="show('qa')">Q&A</button>
+    <button class="nav-btn" onclick="show('culture')">Culture</button>
+    <button class="nav-btn" onclick="show('ask')">Ask Kristen</button>
+    <button class="nav-btn" onclick="show('pl')">P&amp;L</button>
+    <button class="nav-btn" onclick="show('quickref')">Quick Ref</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- SITUATION -->
+<div id="situation" class="section active">
+  <div class="section-header">
+    <h2>Situation at a Glance</h2>
+    <div class="line"></div>
+    <span class="badge">Tab 1 of 7</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-chip"><span class="num">20+</span><span class="label">Years at strategy/ops intersection</span></div>
+    <div class="stat-chip"><span class="num">20%</span><span class="label">Cycle time cut: 90→72 days (Smarsh)</span></div>
+    <div class="stat-chip"><span class="num">+1 release</span><span class="label">Per year gained from cycle compression</span></div>
+    <div class="stat-chip"><span class="num">95%+</span><span class="label">TTD client retention (11 yrs)</span></div>
+    <div class="stat-chip"><span class="num">3,500+</span><span class="label">TTD employees worldwide</span></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Role &amp; Structure</div>
+      <table class="ref-table">
+        <tr><td>Role</td><td class="kv-val accent">VP, Head of Strategic Initiatives</td></tr>
+        <tr><td>Reports to</td><td class="kv-val">Samantha Jacobson (CSO &amp; EVP &amp; Board)</td></tr>
+        <tr><td>Interviewer</td><td class="kv-val">Kristen Grant (GM Data Privacy &amp; CoS)</td></tr>
+        <tr><td>Round</td><td class="kv-val">2 — Execution &amp; Strategic Fit</td></tr>
+        <tr><td>Location</td><td class="kv-val">New York</td></tr>
+        <tr><td>Base Range</td><td class="kv-val gold">$189,800 – $347,900 + equity</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What This Role Actually Is</div>
+      <table class="ref-table">
+        <tr><td>The Title</td><td>VP, Head of Strategic Initiatives</td></tr>
+        <tr><td>The Reality</td><td class="kv-val accent">Chief of Staff-adjacent operator for the CSO</td></tr>
+        <tr><td>Analogy</td><td>This role : Samantha = Kristen : Jeff Green</td></tr>
+        <tr><td>Core ask</td><td>Translate CSO directives → concrete action plans</td></tr>
+        <tr><td>Other asks</td><td>Internal comms, partnerships, senior accountability</td></tr>
+        <tr><td>Culture req</td><td>C-suite pace, low-ego execution, ambiguity tolerance</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Alignment Matrix — TTD Needs → Your Evidence</div>
+    <div class="align-row">
+      <div class="align-need">Strategic Counsel to C-Suite</div>
+      <div class="align-arrow">→</div>
+      <div class="align-evidence">Interim CoS to CEO at IAS (Sept 2023–April 2024) — operational scaling, board-level comms, CEO calendar as strategic asset</div>
+    </div>
+    <div class="align-row">
+      <div class="align-need">Cross-Functional Accountability</div>
+      <div class="align-arrow">→</div>
+      <div class="align-evidence">Smarsh: Owned enterprise operating structure across Prod/Eng/Fin/GTM. Cycle dropped 90→72 days (one extra release/year). Speed came from removing friction — clearer scope, faster decisions, smaller releases — not pushing teams harder.</div>
+    </div>
+    <div class="align-row">
+      <div class="align-need">Public Company Resource Mgmt</div>
+      <div class="align-arrow">→</div>
+      <div class="align-evidence">IAS is Nasdaq-listed; navigated public market pressure and investor scrutiny as CoS and SVP Product Ops</div>
+    </div>
+    <div class="align-row">
+      <div class="align-need">Partnership &amp; Deal Execution</div>
+      <div class="align-arrow">→</div>
+      <div class="align-evidence">IAS Global Product/Tech Ops: unified planning/capacity models; embedded competitive insights into product prioritization</div>
+    </div>
+    <div class="align-row">
+      <div class="align-need">Cross-Functional Special Projects</div>
+      <div class="align-arrow">→</div>
+      <div class="align-evidence">Smarsh M&A integration — integrated acquired voice capture assets across Prod/Eng/Fin/GTM with no playbook</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Your One Known Gap — Address Proactively If It Comes Up</div>
+    <p style="font-size:13px;line-height:1.7;">You have not operated inside a buy-side DSP. TTD domain language (bidding, CPM, supply paths, UID2.0) may surface. The frame: <span class="hl">I am an expert in process and scaling systems. I learn domains rapidly.</span> Month 1 plan: Supply Path Mechanics → Planner/Koa deep dive → UID2.0 landscape — simultaneously running an operational audit. Lead through governance, not domain expertise.</p>
+  </div>
+</div>
+
+<!-- PITCH -->
+<div id="pitch" class="section">
+  <div class="section-header">
+    <h2>Your Pitch &amp; Opening Narrative</h2>
+    <div class="line"></div>
+    <span class="badge">Tab 2 of 7</span>
+  </div>
+
+  <div class="pitch-box">
+    <div class="pitch-kicker">Personal Pitch (verbatim-ready)</div>
+    <div class="pitch-text">
+      "I've spent the last several years in operations, product, and strategy roles at high-growth tech companies. Right now I'm SVP of Global Product Operations at Smarsh, where I own the operating structure across Product, Engineering, Finance, and GTM. Before that, at Integral Ad Science, I stepped into an interim Chief of Staff role working directly with the CEO on strategic initiatives and cross-functional priorities. A lot of what I do comes down to taking executive vision and making it executable — building the systems, the governance, and the alignment that lets a company actually move. When I saw this role, working alongside TTD's CSO at the scale you're operating, it felt like a natural next step."
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">The Hook</div>
+      <p style="font-size:13px;line-height:1.7;">20+ years at the intersection of Strategy &amp; Operations in high-growth tech — Smarsh, IAS.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">The Bridge</div>
+      <p style="font-size:13px;line-height:1.7;">I take executive vision and make it executable. I build the systems, governance, and alignment that allow a company to actually move.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">The Pivot</div>
+      <p style="font-size:13px;line-height:1.7;">While new to buy-side DSPs, I learn domains quickly. I lead through process, people, and governance — not just domain expertise.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Your Superpower Line</div>
+    <p style="font-size:20px;font-weight:600;color:var(--accent);font-family:var(--mono);">"My superpower is systematizing the abstract."</p>
+  </div>
+
+  <div class="card" style="border-color:var(--gold);">
+    <div class="card-title" style="color:var(--gold);">Two Lines Worth Memorizing Verbatim</div>
+    <table class="ref-table">
+      <tr>
+        <td style="width:120px;">On readiness</td>
+        <td style="font-style:italic;">"I didn't move to execution until I had organizational alignment on what success actually looked like."</td>
+      </tr>
+      <tr>
+        <td>On exec partnership</td>
+        <td style="font-style:italic;">"Executive partnership is about judgment more than capacity. You're useful when the executive trusts you to push back, prioritize ruthlessly, and absorb ambiguity so they don't have to."</td>
+      </tr>
+      <tr>
+        <td>On speed</td>
+        <td style="font-style:italic;">"Speed is not about shipping faster. It is about converting strategy into revenue and learning faster than competitors."</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Why TTD? Why This Role? — Key Points</div>
+    <table class="ref-table">
+      <tr><td>The moment</td><td>Programmatic ecosystem being rewired around identity, privacy, and CTV — a rare inflection point</td></tr>
+      <tr><td>The function</td><td>CSO is navigating what that means strategically. This VP role is the operational engine for that work</td></tr>
+      <tr><td>The fit</td><td>I've sat at the intersection of strategy and execution for executives managing complexity at scale — IAS CoS, Smarsh SVP</td></tr>
+      <tr><td>The mission</td><td>Open Internet vs. walled gardens is a genuine strategic conviction, not just a product positioning</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div id="qa" class="section">
+  <div class="section-header">
+    <h2>Likely Questions &amp; Answer Anchors</h2>
+    <div class="line"></div>
+    <span class="badge">Tab 3 of 7</span>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Click any question to expand the answer anchor. Use these as frameworks, not scripts.</p>
+
+  <!-- STRATEGIC EXEC -->
+  <div class="qa-item open">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-blue">CoS / Exec Partner</span>Tell me about a time you served as a strategic partner to a senior executive.</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <strong>Anchor: IAS Interim CoS (Sept 2023–April 2024)</strong>
+      <div class="proof"><span>Context:</span> Public company (Nasdaq: IAS) under market pressure and scaling demands</div>
+      <div class="proof"><span>Action:</span> Owned CEO calendar as strategic asset to prioritize high-leverage activities · Prepared critical narratives for public company board meetings · Ran cross-functional accountability cycles across Product, Tech, and Finance · Surfaced problems early enough to course-correct</div>
+      <div class="proof"><span>Result:</span> Stabilized operations during critical scaling period; facilitated executive decision cycles</div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);">Key line: <span style="color:var(--text);">"Executive partnership is about judgment more than capacity. You're useful when the executive trusts you to push back, prioritize ruthlessly, and absorb ambiguity so they don't have to."</span></p>
+    </div>
+  </div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-blue">Ambiguity</span>Describe translating a vague strategic directive into a concrete plan.</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <strong>Anchor: Smarsh M&amp;A Integration (2024)</strong>
+      <div class="proof"><span>Context:</span> Acquired voice capture business. Directive: "integrate this and build a coherent product ops model." No playbook.</div>
+      <div class="proof"><span>Action:</span> Diagnostic — mapped operating structure, identified accountability gaps and decision rights gaps. Built unified planning framework: Prod/Eng/Fin/GTM with OKRs connecting acquired assets to core portfolio.</div>
+      <div class="proof"><span>Result:</span> Cycle dropped from ~90 days to ~72 days — effectively gaining one additional release window per year. Customers saw value sooner, revenue tied to product moved earlier, feedback loops tightened. C-suite adopted cross-functional operating cadences.</div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);">Key framing: <span style="color:var(--text);">"Speed doesn't come from pushing teams harder. It comes from removing friction — faster decisions, clearer scope, earlier validation, fewer dependency delays, smaller releases. Delivery speed is a leadership and operating model question, not an engineering metric."</span></p>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);">Key line: <span style="color:var(--text);">"I didn't move to execution until I had organizational alignment on what success actually looked like."</span></p>
+    </div>
+  </div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-blue">Accountability</span>How do you hold senior leaders accountable without direct authority?</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <strong>Frame: Accountability is an information problem, not a power problem.</strong>
+      <div class="proof"><span>Anchor:</span> IAS — Product, Tech, and Finance on disconnected planning cycles. Built shared OKR system so slippage was visible early. Conversation became "how do we get back on track" not "why are you behind."</div>
+      <p style="margin-top:8px;font-size:13px;line-height:1.7;"><strong>The four-node cycle that makes it work:</strong></p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;">
+        <div style="background:#0a1f35;border:1px solid #1e4a6e;border-radius:5px;padding:8px 10px;font-size:12px;"><strong style="color:var(--accent);">1. Shared Visibility</strong><br><span style="color:var(--muted);">Slippage visible early via OKRs — before it becomes a crisis</span></div>
+        <div style="background:#0a1f35;border:1px solid #1e4a6e;border-radius:5px;padding:8px 10px;font-size:12px;"><strong style="color:var(--accent);">2. Shared Definitions</strong><br><span style="color:var(--muted);">Single capacity model — everyone working from the same numbers</span></div>
+        <div style="background:#0a1f35;border:1px solid #1e4a6e;border-radius:5px;padding:8px 10px;font-size:12px;"><strong style="color:var(--accent);">3. Conversation Shift</strong><br><span style="color:var(--muted);">From "Why are you behind?" to "How do we fix it?" — removes defensiveness</span></div>
+        <div style="background:#0a1f35;border:1px solid #1e4a6e;border-radius:5px;padding:8px 10px;font-size:12px;"><strong style="color:var(--accent);">4. Predictable Execution</strong><br><span style="color:var(--muted);">The outcome: leaders self-report, system runs without enforcement</span></div>
+      </div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);">Key line: <span style="color:var(--text);">"You earn the right to hold people accountable by first demonstrating that you understand their constraints and you are there to help them succeed, not catch them failing."</span></p>
+    </div>
+  </div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-gold">Cross-Functional</span>Tell me about building alignment across functions with competing priorities.</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <strong>Anchor: IAS — Product/Tech/Finance misalignment</strong>
+      <div class="proof"><span>Context:</span> Three functions on separate planning cycles. Roadmap Sales was selling couldn't be built on the schedule Finance modeled.</div>
+      <div class="proof"><span>Action:</span> Structured alignment process: single capacity model, shared definition of "committed deliverable," joint planning calendar. ~1 quarter to stabilize.</div>
+      <div class="proof"><span>Result:</span> Unified operating model; roadmap aligned to P&amp;L capacity.</div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);">Key line: <span style="color:var(--text);">"I had to be explicit: the goal is not to reduce your decision rights — it's to make the system predictable for the business."</span></p>
+    </div>
+  </div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-gold">Cross-Functional</span>How do you work with people who have very different working styles?</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <p style="font-size:13px;line-height:1.7;">I adapt my communication and pace to the person — not the other way around. Some leaders want weekly written summaries; others want five minutes verbal. I figure that out in the first two interactions.</p>
+      <p style="margin-top:8px;font-size:13px;line-height:1.7;"><strong>What I don't adapt is the operating standard.</strong> What did you commit to, what's the current status, what do you need to get unstuck. I make that container comfortable for different styles; the substance doesn't change.</p>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);">If style is actually a values difference (low transparency, low coordination): escalate the pattern to the appropriate executive rather than manage it bilaterally.</p>
+    </div>
+  </div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-green">Culture</span>TTD values grit, generosity, openness, full-heartedness. Give me an example.</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <strong>Lead with: Generosity</strong>
+      <div class="proof"><span>Example:</span> As CoS at IAS, spent significant time coaching and advocating for leaders who reported to the CEO — helping them navigate the org, prepare for board conversations, get resources. Invisible to my job description but made the whole system function better.</div>
+      <p style="margin-top:8px;font-size:13px;line-height:1.7;">Generosity in an operational role: share information freely, don't protect access, don't use proximity to the executive as a lever. Your job is to make everyone around you more effective.</p>
+    </div>
+  </div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-green">Culture</span>TTD is a "low-ego" culture. What does that mean to you?</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <p style="font-size:13px;line-height:1.7;"><strong>Low ego, high conviction — not the same thing.</strong> I am more interested in the outcome being right than in being the person who was right. In practice: I change my position when I get better information. I credit the people who did the actual work. I don't need to be in the room for a decision to feel ownership over the outcome.</p>
+      <p style="margin-top:8px;font-size:13px;line-height:1.7;"><strong>What it looks like in the Kristen dynamic specifically:</strong> We are peers in function — you manage ambiguity for the CEO, I would manage it for the CSO. That means operating without owning the line, translating "What if" into "How to," and sharing a Chief of Staff skillset. The peer dynamic works when neither person is protecting turf and both are optimizing for the executive they serve.</p>
+      <p style="margin-top:8px;font-size:13px;line-height:1.7;"><strong>Low ego doesn't mean low confidence.</strong> I push back on decisions I think are wrong. I say what I think in the room. The difference is I hold those positions on the merits, not because I need to win.</p>
+    </div>
+  </div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this.parentElement)">
+      <div><span class="tag tag-blue">Execution</span>You mention a 20% improvement in delivery speed. Walk me through how that happened.</div>
+      <span class="qa-toggle">+</span>
+    </div>
+    <div class="qa-a">
+      <strong>Lead with the business frame, not the metric.</strong>
+      <div class="proof"><span>Frame:</span> I look at delivery speed as a business lever, not an engineering metric. The real question is how quickly strategy turns into market impact.</div>
+      <div class="proof"><span>The math:</span> Our cycle was ninety days. We cut it to roughly seventy-two — about eighteen days. That doesn't sound dramatic until you realize it means going from four meaningful releases a year to closer to five. One extra window to win, learn, and adjust.</div>
+      <div class="proof"><span>The mechanism:</span> Speed didn't come from pushing teams harder. It came from removing friction: faster decisions, clearer scope, earlier customer validation before heavy investment, strong ownership of cross-team dependencies, and releasing in smaller increments so value reaches the market continuously.</div>
+      <div class="proof"><span>The outcome:</span> Customers see value sooner. Revenue tied to product moves earlier. Risk drops because feedback loops tighten. The organizations that win are the ones that convert ideas into market learning faster than competitors.</div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);">If probed on <em>"how specifically"</em>: <span style="color:var(--text);">OKRs tied to commercial outcomes replaced activity-based tracking. Scope was locked earlier in each cycle. Dependencies were surfaced in planning, not discovered mid-sprint. That's the operating discipline that made it sustainable.</span></p>
+    </div>
+  </div>
+
+  <!-- FOLLOW-UP PROBES -->
+  <div class="card" style="margin-top:16px;border-color:#4a2a00;">
+    <div class="card-title" style="color:var(--gold);">Likely Follow-Up Probes from Kristen</div>
+    <table class="ref-table">
+      <tr><td>"What didn't work?"</td><td>Be specific. Have a real failure ready — not a thinly veiled strength.</td></tr>
+      <tr><td>"How did the exec respond to pushback?"</td><td>Show you held a position respectfully and read the dynamic correctly.</td></tr>
+      <tr><td>"What would you do differently?"</td><td>Self-awareness and learning — not self-flagellation.</td></tr>
+      <tr><td>"How did you earn trust quickly?"</td><td>Listen first, deliver on small commitments, make the executive look good. You've done this at both Smarsh and IAS.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- CULTURE -->
+<div id="culture" class="section">
+  <div class="section-header">
+    <h2>Culture Fit &amp; Kristen's Assessment Lens</h2>
+    <div class="line"></div>
+    <span class="badge">Tab 4 of 7</span>
+  </div>
+
+  <div class="card" style="border-color:var(--accent);margin-bottom:16px;">
+    <div class="card-title">What Kristen Is Evaluating</div>
+    <div class="grid-3" style="margin-top:6px;">
+      <div style="text-align:center;padding:10px;">
+        <div style="font-size:24px;margin-bottom:6px;">⚡</div>
+        <div style="font-weight:600;margin-bottom:4px;">C-Suite Pace</div>
+        <div style="font-size:12px;color:var(--muted);">Operating with high-leverage executives without constant direction</div>
+      </div>
+      <div style="text-align:center;padding:10px;">
+        <div style="font-size:24px;margin-bottom:6px;">🌫</div>
+        <div style="font-weight:600;margin-bottom:4px;">Ambiguity</div>
+        <div style="font-size:12px;color:var(--muted);">Judgment to navigate undefined problems</div>
+      </div>
+      <div style="text-align:center;padding:10px;">
+        <div style="font-size:24px;margin-bottom:6px;">⚖️</div>
+        <div style="font-weight:600;margin-bottom:4px;">Low Ego</div>
+        <div style="font-size:12px;color:var(--muted);">Service-oriented; interested in the outcome being right, not being right</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="culture-tile">
+      <div class="culture-icon">💪</div>
+      <div class="culture-name">Grit</div>
+      <div class="culture-proof">20 years in high-growth SaaS. CoS role during high-pressure public market scrutiny at IAS. Navigated scaling demands simultaneously with Interim CoS responsibilities.</div>
+    </div>
+    <div class="culture-tile">
+      <div class="culture-icon">🤝</div>
+      <div class="culture-name">Generosity</div>
+      <div class="culture-proof">Mentoring leaders who don't report to me at IAS — invisible work that improved the system. Service-oriented executive partnership. Making others effective.</div>
+    </div>
+    <div class="culture-tile">
+      <div class="culture-icon">🔓</div>
+      <div class="culture-name">Openness</div>
+      <div class="culture-proof">"Information is for sharing, not hoarding." Built dashboards and OKR systems specifically to create transparency across Product/Tech/Finance at IAS and Smarsh.</div>
+    </div>
+    <div class="culture-tile">
+      <div class="culture-icon">❤️</div>
+      <div class="culture-name">Full-Heartedness</div>
+      <div class="culture-proof">Commitment to the Open Internet mission — not just a platform fee model, but a genuine ecosystem bet. Water.org partnership reflects values-led company; resonate with mission-driven culture.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-title">Shared DNA with Kristen Grant — Use This</div>
+    <p style="font-size:13px;line-height:1.7;">Kristen is GM Data Privacy &amp; CoS to the CEO. You are interviewing for the CoS-equivalent to the CSO. <strong>You are peers in function, if not yet in title at TTD.</strong> You share the same core skillset: judgment over management, operating without owning the line, translating "What if" into "How to." Acknowledge this shared operating model — it's a genuine connection point, not flattery.</p>
+  </div>
+</div>
+
+<!-- ASK KRISTEN -->
+<div id="ask" class="section">
+  <div class="section-header">
+    <h2>Questions to Ask Kristen</h2>
+    <div class="line"></div>
+    <span class="badge">Tab 5 of 7</span>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Objective: signal strategic depth AND gather real role intelligence. Pick 3–4. Don't ask all of them.</p>
+
+  <div class="ask-item">
+    <div class="ask-cat">Role Success</div>
+    What does success in this role look like at 90 days versus 12 months? What does Samantha need this person to be able to execute independently by end of year one?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Role Success</div>
+    What is the single most critical initiative the CSO needs this person to be running independently by year-end?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Role Success</div>
+    What are the highest-priority strategic initiatives on Samantha's plate right now that this person would be stepping into immediately?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Governance &amp; Structure</div>
+    Where does this role sit relative to existing operational infrastructure? Is there overlap with other Chiefs of Staff or strategy functions that will need to be navigated?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Governance &amp; Structure</div>
+    How do you navigate the overlap between the CEO's office and the CSO's office to ensure you aren't doubling up on governance — and how do you make sure the CSO office empowers rather than bottlenecks?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Strategic Direction</div>
+    TTD has been explicit about the open internet thesis. As that competitive dynamic evolves, how is the CSO thinking about where TTD needs to expand its strategic footprint?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Strategic Direction</div>
+    UID2.0 and the identity ecosystem are still evolving. How much of the CSO's strategic bandwidth is going toward the identity and data privacy agenda right now, versus partnership expansion?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Ops Culture (Peer-to-Peer)</div>
+    You're in a Chief of Staff role yourself. What are the one or two things you've learned about operating effectively in close proximity to a CEO that you'd pass on to someone about to do the same for the CSO?
+  </div>
+
+  <div class="ask-item">
+    <div class="ask-cat">Closing</div>
+    Based on what you've heard today and what you know about what Samantha is looking for — is there anything you'd want me to address or expand on before we wrap?
+  </div>
+</div>
+
+<!-- P&L -->
+<div id="pl" class="section">
+  <div class="section-header">
+    <h2>Smarsh 2026 Product P&L</h2>
+    <div class="line"></div>
+    <span class="badge">Tab 6 of 7</span>
+  </div>
+
+  <!-- SUMMARY STATS -->
+  <div class="stat-row">
+    <div class="stat-chip"><span class="num">$439.5M</span><span class="label">Total Revenue (FCST)</span></div>
+    <div class="stat-chip"><span class="num">$193.3M</span><span class="label">Total Expenses (FCST)</span></div>
+    <div class="stat-chip"><span class="num">$246.2M</span><span class="label">Total Profit (FCST)</span></div>
+    <div class="stat-chip"><span class="num">56.0%</span><span class="label">Overall Margin (FCST)</span></div>
+    <div class="stat-chip"><span class="num">+$0.7M</span><span class="label">Revenue vs. Budget</span></div>
+  </div>
+
+  <!-- PRODUCT TABLE -->
+  <div class="card" style="margin-bottom:14px;">
+    <div class="card-title">FY26 Current Forecast by Product — All figures in $thousands</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border);">
+          <th style="text-align:left;padding:8px 10px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">Product</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">Revenue</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">Expenses</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">Profit</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">Margin</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">vs Budget</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">YoY Rev</th>
+          <th style="padding:8px 10px;width:120px;color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:600;">Margin Bar</th>
+        </tr>
+      </thead>
+      <tbody id="pl-tbody">
+      </tbody>
+      <tfoot>
+        <tr style="border-top:2px solid var(--border);background:#0a1525;">
+          <td style="padding:9px 10px;font-weight:700;font-family:var(--mono);font-size:12px;color:var(--text);">TOTAL</td>
+          <td style="text-align:right;padding:9px 10px;font-weight:700;font-family:var(--mono);color:var(--accent);">$439,520</td>
+          <td style="text-align:right;padding:9px 10px;font-weight:700;font-family:var(--mono);color:var(--text);">$193,349</td>
+          <td style="text-align:right;padding:9px 10px;font-weight:700;font-family:var(--mono);color:var(--green);">$246,171</td>
+          <td style="text-align:right;padding:9px 10px;font-weight:700;font-family:var(--mono);color:var(--accent);">56.0%</td>
+          <td style="text-align:right;padding:9px 10px;font-weight:700;font-family:var(--mono);color:var(--gold);">+$674</td>
+          <td style="text-align:right;padding:9px 10px;font-weight:700;font-family:var(--mono);color:#ef4444;">-$17,022</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Revenue Mix — FY26 FCST ($K)</div>
+      <canvas id="revChart" height="220"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">Margin by Product — FY26 FCST</div>
+      <canvas id="marginChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- QUARTERLY TREND -->
+  <div class="card" style="margin-top:12px;">
+    <div class="card-title">Quarterly Revenue Progression — FY26 FCST ($K)</div>
+    <canvas id="qChart" height="160"></canvas>
+  </div>
+
+  <!-- WINNERS / WATCH LIST -->
+  <div class="grid-2" style="margin-top:12px;">
+    <div class="card" style="border-color:var(--green);">
+      <div class="card-title" style="color:var(--green);">High Performers</div>
+      <table class="ref-table">
+        <tr><td>Professional Archive</td><td style="color:var(--green);font-weight:600;text-align:right;">76.3% margin · $104.4M rev</td></tr>
+        <tr><td>Digital Safe</td><td style="color:var(--green);font-weight:600;text-align:right;">68.5% margin · $66.1M rev · +$2.6M vs budget</td></tr>
+        <tr><td>Enterprise Archive</td><td style="color:var(--green);font-weight:600;text-align:right;">67.2% margin · $106.9M rev · strong YoY +31%</td></tr>
+        <tr><td>Desktop</td><td style="color:var(--green);font-weight:600;text-align:right;">56.4% margin — solid despite vol decline</td></tr>
+      </table>
+    </div>
+    <div class="card" style="border-color:var(--red);">
+      <div class="card-title" style="color:var(--red);">Watch List</div>
+      <table class="ref-table">
+        <tr><td>Mobile</td><td style="color:#f87171;font-weight:600;text-align:right;">20.6% margin · -16% YoY rev decline</td></tr>
+        <tr><td>Conduct</td><td style="color:#f87171;font-weight:600;text-align:right;">23.9% margin · -10% YoY · Q2/Q3 negative profit</td></tr>
+        <tr><td>Capture</td><td style="color:#f87171;font-weight:600;text-align:right;">30.0% margin · -23% YoY — sharpest volume drop</td></tr>
+        <tr><td>Business Solutions</td><td style="color:#f87171;font-weight:600;text-align:right;">40.3% margin · -10% YoY rev decline</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- KEY TAKEAWAYS FOR INTERVIEW -->
+  <div class="card" style="margin-top:12px;background:linear-gradient(135deg,#0a1f35,#0d2d50);border-color:var(--accent);">
+    <div class="card-title">P&L Narrative — How This Connects to Your TTD Story</div>
+    <div class="grid-2" style="margin-top:6px;gap:16px;">
+      <div>
+        <p style="font-size:13px;line-height:1.7;"><strong style="color:var(--accent);">You own this exact operating challenge at Smarsh.</strong> Total revenue is down 3.7% YoY while the portfolio has high-margin anchors (PA at 76%, DS at 68%, EA at 67%) subsidizing structurally challenged products (Mobile at 20%, Conduct at 24%, Capture at 30%). This is precisely the cross-functional problem you solved at IAS — aligning roadmaps to P&L accountability, forcing capacity tradeoffs against actual contribution margin.</p>
+      </div>
+      <div>
+        <p style="font-size:13px;line-height:1.7;"><strong style="color:var(--gold);">The story to tell if it comes up:</strong> I built the systems that make this portfolio legible — OKRs tied to P&L lines, roadmap health dashboards, quarterly reviews where Product and Finance share the same numbers. When Mobile is at 20% margin and declining, the governance structure has to force a decision based on contribution margin, not inertia. That's the work I do. The delivery speed result — cutting cycle time from 90 to 72 days — was a byproduct of that operating discipline, not the goal itself.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK REF -->
+<div id="quickref" class="section">
+  <div class="section-header">
+    <h2>Quick Reference — Know Cold</h2>
+    <div class="line"></div>
+    <span class="badge">Tab 7 of 7</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Key People</div>
+      <table class="ref-table">
+        <tr><td>CEO</td><td>Jeff Green — Founder, Chairman, CEO</td></tr>
+        <tr><td>Your Boss</td><td>Samantha Jacobson — CSO &amp; EVP &amp; Board Member</td></tr>
+        <tr><td>Interviewer</td><td>Kristen Grant — GM Data Privacy &amp; Chief of Staff</td></tr>
+        <tr><td>COO</td><td>Vivek Kundra</td></tr>
+        <tr><td>CRO</td><td>Anders Mortensen</td></tr>
+        <tr><td>CMO</td><td>Ian Colley</td></tr>
+        <tr><td>Interim CFO</td><td>Tahnil Davis</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">The Company</div>
+      <table class="ref-table">
+        <tr><td>Ticker</td><td>TTD (Nasdaq)</td></tr>
+        <tr><td>Employees</td><td>3,500+ worldwide</td></tr>
+        <tr><td>HQ</td><td>Ventura, CA (you're NYC)</td></tr>
+        <tr><td>Model</td><td>Buy-side DSP only. No inventory. Platform fee on ad spend.</td></tr>
+        <tr><td>Thesis</td><td>Open Internet vs. Walled Gardens (Google/Meta/Amazon)</td></tr>
+        <tr><td>Retention</td><td>95%+ client retention — 11 consecutive years</td></tr>
+        <tr><td>Philanthropy</td><td>Water.org partner</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Strategic Assets</div>
+      <table class="ref-table">
+        <tr><td>Koa AI</td><td>Proprietary AI for bidding optimization and audience efficiency</td></tr>
+        <tr><td>UID2.0</td><td>Open-source post-cookie identity standard TTD is leading</td></tr>
+        <tr><td>Planner</td><td>Data-driven media planning tool</td></tr>
+        <tr><td>CTV</td><td>Highest-growth segment — streaming fragmentation benefits TTD as neutral buying layer</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Your Key Numbers</div>
+      <table class="ref-table">
+        <tr><td>Smarsh</td><td>SVP Global Product Ops, April 2024–present</td></tr>
+        <tr><td>IAS CoS</td><td>Interim CoS to CEO, Sept 2023–April 2024</td></tr>
+        <tr><td>IAS SVP</td><td>SVP Global Product &amp; Technical Ops, April 2023–April 2024</td></tr>
+        <tr><td>20%</td><td>Cycle time reduction (Smarsh)</td></tr>
+        <tr><td>25%</td><td>Delivery velocity increase (Smarsh)</td></tr>
+        <tr><td>Impact</td><td>Unified op model; roadmap aligned to P&amp;L capacity (IAS)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--gold);">
+    <div class="card-title" style="color:var(--gold);">TTD Values — Know These Cold</div>
+    <div class="grid-2" style="margin-top:4px;">
+      <div><strong>Grit</strong> — Resilience. 20 yrs high-growth SaaS; public market pressure at IAS.</div>
+      <div><strong>Generosity</strong> — Making others effective. Coaching leaders at IAS beyond your mandate.</div>
+      <div style="margin-top:8px;"><strong>Openness</strong> — Information is for sharing. Dashboards, OKRs for transparency.</div>
+      <div style="margin-top:8px;"><strong>Full-heartedness</strong> — Commitment to the Open Internet mission. Not performative.</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#0a1f35,#0d2d50);border-color:var(--accent);">
+    <div class="card-title">Final Reminders</div>
+    <div class="grid-3" style="margin-top:6px;">
+      <div style="font-size:13px;line-height:1.7;"><strong style="color:var(--accent);">This is conversational.</strong> Kristen will probe. Have real failures ready, not polished deflections.</div>
+      <div style="font-size:13px;line-height:1.7;"><strong style="color:var(--gold);">Peer dynamic.</strong> You and Kristen do the same job for different executives. Acknowledge this.</div>
+      <div style="font-size:13px;line-height:1.7;"><strong style="color:var(--green);">Two-way process.</strong> Use your questions to signal depth and gather real intel about the role.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ---- NAV ----
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  if (id === 'pl' && !window._chartsBuilt) { buildCharts(); window._chartsBuilt = true; }
+}
+
+function toggleQA(el) { el.classList.toggle('open'); }
+
+// ---- P&L DATA ----
+const PL = [
+  { name:'Professional Archive', rev:104372, exp:24771, profit:79601, margin:76.3, budget:104452, fy25:94119,
+    q:[24833,25350,26581,27608] },
+  { name:'Business Solutions',   rev:11162,  exp:6664,  profit:4498,  margin:40.3, budget:11523, fy25:12346,
+    q:[2889,2813,2762,2699] },
+  { name:'Enterprise Archive',   rev:106938, exp:35046, profit:71892, margin:67.2, budget:108474, fy25:81509,
+    q:[23220,24791,27021,31906] },
+  { name:'Capture',              rev:55879,  exp:39108, profit:16771, margin:30.0, budget:55703, fy25:72212,
+    q:[12651,13708,14595,14925] },
+  { name:'Mobile',               rev:35726,  exp:28367, profit:7359,  margin:20.6, budget:35036, fy25:42491,
+    q:[8086,8383,9135,10122] },
+  { name:'Desktop',              rev:20153,  exp:8778,  profit:11375, margin:56.4, budget:20667, fy25:29672,
+    q:[4565,5326,5459,4803] },
+  { name:'Conduct',              rev:39195,  exp:29822, profit:9372,  margin:23.9, budget:39534, fy25:43444,
+    q:[11389,6603,6946,14256] },
+  { name:'Digital Safe',         rev:66095,  exp:20792, profit:45302, margin:68.5, budget:63455, fy25:80681,
+    q:[17604,17158,16175,15157] },
+];
+
+// Sorted for charts
+const byMargin = [...PL].sort((a,b) => b.margin - a.margin);
+
+// ---- TABLE ----
+function marginColor(m) {
+  if (m >= 65) return '#10b981';
+  if (m >= 50) return '#0ea5e9';
+  if (m >= 35) return '#f59e0b';
+  return '#ef4444';
+}
+
+function buildTable() {
+  const tbody = document.getElementById('pl-tbody');
+  PL.forEach(p => {
+    const vsBud = p.rev - p.budget;
+    const yoy = p.rev - p.fy25;
+    const yoyPct = (yoy / p.fy25 * 100).toFixed(1);
+    const yoyColor = yoy >= 0 ? '#10b981' : '#ef4444';
+    const budColor = vsBud >= 0 ? '#10b981' : '#ef4444';
+    const barW = Math.round(p.margin);
+    const mc = marginColor(p.margin);
+    tbody.innerHTML += `
+      <tr style="border-bottom:1px solid #1e3050;">
+        <td style="padding:8px 10px;font-weight:500;">${p.name}</td>
+        <td style="text-align:right;padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:var(--accent);">$${p.rev.toLocaleString()}</td>
+        <td style="text-align:right;padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:var(--muted);">$${p.exp.toLocaleString()}</td>
+        <td style="text-align:right;padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:var(--green);">$${p.profit.toLocaleString()}</td>
+        <td style="text-align:right;padding:8px 10px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:${mc};">${p.margin}%</td>
+        <td style="text-align:right;padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:${budColor};">${vsBud >= 0 ? '+' : ''}$${vsBud.toLocaleString()}</td>
+        <td style="text-align:right;padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:${yoyColor};">${yoy >= 0 ? '+' : ''}${yoyPct}%</td>
+        <td style="padding:8px 10px;">
+          <div style="background:#1e3050;border-radius:3px;height:8px;width:100%;overflow:hidden;">
+            <div style="background:${mc};height:100%;width:${barW}%;border-radius:3px;transition:width 0.3s;"></div>
+          </div>
+        </td>
+      </tr>`;
+  });
+}
+buildTable();
+
+// ---- CHARTS ----
+const COLORS = ['#0ea5e9','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#ec4899'];
+
+function buildCharts() {
+  Chart.defaults.color = '#94a3b8';
+  Chart.defaults.borderColor = '#2a3f5f';
+
+  // Revenue doughnut
+  new Chart(document.getElementById('revChart'), {
+    type: 'doughnut',
+    data: {
+      labels: PL.map(p => p.name.replace(' Archive','').replace(' Solutions','')),
+      datasets: [{ data: PL.map(p => p.rev), backgroundColor: COLORS, borderWidth: 2, borderColor: '#1a2535' }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 11, family: "'IBM Plex Sans'" }, padding: 10, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` $${(ctx.parsed/1000).toFixed(1)}M (${(ctx.parsed/439520*100).toFixed(1)}%)`
+          }
+        }
+      }
+    }
+  });
+
+  // Margin horizontal bar
+  new Chart(document.getElementById('marginChart'), {
+    type: 'bar',
+    data: {
+      labels: byMargin.map(p => p.name.replace(' Archive','').replace(' Solutions','')),
+      datasets: [{
+        label: 'Margin %',
+        data: byMargin.map(p => p.margin),
+        backgroundColor: byMargin.map(p => marginColor(p.margin)),
+        borderRadius: 4,
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x}%` } }
+      },
+      scales: {
+        x: { min: 0, max: 100, ticks: { callback: v => v+'%', font: { size: 11 } }, grid: { color: '#1e3050' } },
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Quarterly stacked bar
+  const qLabels = ['Q1','Q2','Q3','Q4'];
+  const qDatasets = PL.map((p, i) => ({
+    label: p.name.split(' ')[0],
+    data: p.q,
+    backgroundColor: COLORS[i],
+    borderWidth: 0,
+    borderRadius: 2,
+  }));
+
+  new Chart(document.getElementById('qChart'), {
+    type: 'bar',
+    data: { labels: qLabels, datasets: qDatasets },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 11, family: "'IBM Plex Sans'" }, padding: 8, boxWidth: 12 } },
+        tooltip: { mode: 'index', callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: $${(ctx.parsed.y/1000).toFixed(1)}M`
+        }}
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 12 } } },
+        y: { stacked: true, ticks: { callback: v => '$'+(v/1000).toFixed(0)+'M', font: { size: 11 } }, grid: { color: '#1e3050' } }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
